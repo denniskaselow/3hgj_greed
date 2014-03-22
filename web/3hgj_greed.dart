@@ -35,6 +35,12 @@ class Game extends GameBase {
             new OverviewRenderingSystem()
     ];
   }
+
+  void update({double time}) {
+    world.delta = 1000.0;
+    world.process();
+    new Timer(new Duration(seconds: 1), update);
+  }
 }
 
 var stocks = [['NNNN', '4N Co'],
