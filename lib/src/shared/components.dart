@@ -11,4 +11,14 @@ class StockId extends Component {
   StockId(this.symbol, this.name);
 }
 
+class PriceHistory extends Component {
+  Queue<double> prices = new Queue<double>();
+  double firstPrice;
+  double absoluteChange = 0.0;
+  double relativeChange = 0.0;
+  PriceHistory(this.firstPrice) {
+    prices.add(firstPrice);
+  }
+}
+
 class StockIndex extends Component {}

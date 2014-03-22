@@ -1,6 +1,7 @@
 import 'package:3hgj_greed/client.dart';
 
-@MirrorsUsed(targets: const [InitializationSystem, OverviewRenderingSystem
+@MirrorsUsed(targets: const [InitializationSystem, OverviewRenderingSystem,
+                             TickerSystem
                             ])
 import 'dart:mirrors';
 
@@ -14,12 +15,16 @@ class Game extends GameBase {
 
   void createEntities() {
     stocks.forEach((stock) {
-      addEntity([new StockId(stock[0], stock[1]), new Price(20 + random.nextDouble() * 150)]);
+      var firstPrice = 20 + random.nextDouble() * 150;
+      addEntity([new StockId(stock[0], stock[1]),
+                 new Price(firstPrice),
+                 new PriceHistory(firstPrice)]);
     });
   }
 
   List<EntitySystem> getSystems() {
     return [
+            new TickerSystem(),
             new InitializationSystem(),
             new OverviewRenderingSystem(),
             new CanvasCleaningSystem(canvas),
