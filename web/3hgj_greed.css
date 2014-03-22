@@ -2,6 +2,10 @@ body {
   text-align: center;
 }
 
+canvas {
+  display: none;
+}
+
 #stocks {
   width: 800px;
   margin: auto;
@@ -30,4 +34,30 @@ body {
   display: inline-block;
   width: 70px;
   text-align: right;
+}
+
+table {
+  width: 300px;
+  margin: auto;
+}
+
+th {
+  text-align: left;
+}
+
+td:first-of-type {
+  text-align: left;
+}
+
+.number {
+  text-align: right;
+}
+
+#order {
+  width: 300px;
+  margin: auto;
+}
+
+#order label {
+  display: block;
 }

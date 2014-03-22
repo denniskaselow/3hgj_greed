@@ -15,3 +15,5 @@ Random random = new Random();
 
 var maxPosRelativeChange = 0.0;
 var maxNegRelativeChange = 0.0;
+
+var priceComponents = new Map<String, Price>();

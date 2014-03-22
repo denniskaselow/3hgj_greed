@@ -7,10 +7,49 @@
     <link type="text/css" rel="stylesheet" href="3hgj_greed.css">
   </head>
   <body>
-    <div id="stocks">
-      
+    <table id="account">
+      <tbody>
+        <tr>
+          <td>Not invested</td>
+          <td id='notInvested' class='number'></td>
+        </tr>
+        <tr>
+          <td>Invested</td>
+          <td id='invested' class='number'></td>
+        </tr>
+        <tr>
+          <td>Borrowed</td>
+          <td id='borrowed' class='number'></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th id='total' class='number'></th>
+        </tr>
+      </tfoot>
+    </table>
+    <fieldset id='order'>
+      <legend>CFD Order</legend>
+      <div>Type
+      <label><input type='radio' name='type' value='buy' id="buy"/>Buy</label>
+      <label><input type='radio' name='type' value='sell' id="sell"/>Sell</label>
+      </div>
+      <label>Stock
+        <select id='stockSelection'>
+          <option value=''>--Please select a Stock--</option>
+        </select>
+      </label>
+      <label>Amount: <input type='text' id='amount' placeholder="Amount" /></label>
+      <label>Leverage: <input type='text' id='leverage' placeholder="Set you Leverage (2-100)" /></label>
+      <div>Margin: <span id='margin'></span></div>
+      <div>Leveraged Investment: <span id='leveragedValue'></span></div>
+      <button id="executeOrder">Execute Order</button>
+    </fieldset>
+    <div id='stocks'>
+
     </div>
-  
+
     <canvas></canvas>
 
     <script type="application/dart" src="3hgj_greed.dart"></script>

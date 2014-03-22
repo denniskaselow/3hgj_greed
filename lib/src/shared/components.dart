@@ -22,3 +22,16 @@ class PriceHistory extends Component {
 }
 
 class StockIndex extends Component {}
+
+class Account extends Component {
+  double cash;
+  List<Investment> investments = new List<Investment>();
+  Account(this.cash);
+}
+
+class Investment {
+  String symbol;
+  int amount;
+  double firstPrice;
+  int leverage;
+}
