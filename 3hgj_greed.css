@@ -1,0 +1,63 @@
+body {
+  text-align: center;
+}
+
+canvas {
+  display: none;
+}
+
+#stocks {
+  width: 800px;
+  margin: auto;
+}
+
+.stock {
+  display: inline-block;
+  width: 150px;
+  height: 75px;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 2px;
+}
+
+.stock > label {
+  display: block;
+  font-weight: bold;
+}
+
+.price {
+  display: inline-block;
+  width: 80px;
+}
+
+.change{
+  display: inline-block;
+  width: 70px;
+  text-align: right;
+}
+
+table {
+  width: 300px;
+  margin: auto;
+}
+
+th {
+  text-align: left;
+}
+
+td:first-of-type {
+  text-align: left;
+}
+
+.number {
+  text-align: right;
+}
+
+#order {
+  width: 300px;
+  margin: auto;
+}
+
+#order label {
+  display: block;
+}
