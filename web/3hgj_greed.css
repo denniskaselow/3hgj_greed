@@ -1,3 +1,18 @@
 body {
   text-align: center;
 }
+
+#stocks {
+  width: 800px;
+  margin: auto;
+}
+
+.stock {
+  display: inline-block;
+  width: 150px;
+  height: 50px;
+}
+
+.stock > label {
+  display: block;
+}
