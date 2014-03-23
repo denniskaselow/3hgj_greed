@@ -2,7 +2,7 @@ import 'package:3hgj_greed/client.dart';
 
 @MirrorsUsed(targets: const [InitializationSystem, OverviewRenderingSystem,
                              TickerSystem, AccountRenderingSystem,
-                             OrderUpdateSystem
+                             OrderUpdateSystem, OrderExecutionSystem
                             ])
 import 'dart:mirrors';
 
@@ -14,14 +14,20 @@ class Game extends GameBase {
 
   Game() : super.noAssets('3hgj_greed', 'canvas', 800, 600);
 
+  @override
+  Future onInit() {
+    world.addManager(new TagManager());
+  }
+
   void createEntities() {
+    TagManager tm = world.getManager(TagManager);
     stocks.forEach((stock) {
       var firstPrice = 20 + random.nextDouble() * 150;
       var price = new Price(firstPrice);
-      priceComponents[stock[0]] = price;
-      addEntity([new StockId(stock[0], stock[1]),
+      var e = addEntity([new StockId(stock[0], stock[1]),
                  price,
                  new PriceHistory(firstPrice)]);
+      tm.register(e, stock[0]);
     });
     addEntity([new Account(50000.0)]);
   }
@@ -31,15 +37,10 @@ class Game extends GameBase {
             new InitializationSystem(),
             new TickerSystem(),
             new OrderUpdateSystem(),
+            new OrderExecutionSystem(),
             new AccountRenderingSystem(),
             new OverviewRenderingSystem()
     ];
-  }
-
-  void update({double time}) {
-    world.delta = 1000.0;
-    world.process();
-    new Timer(new Duration(seconds: 1), update);
   }
 }
 

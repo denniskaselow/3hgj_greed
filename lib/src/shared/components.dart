@@ -28,10 +28,3 @@ class Account extends Component {
   List<Investment> investments = new List<Investment>();
   Account(this.cash);
 }
-
-class Investment {
-  String symbol;
-  int amount;
-  double firstPrice;
-  int leverage;
-}
