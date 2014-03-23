@@ -22,6 +22,19 @@ class StockElement extends PolymerElement {
   @observable String bgColor = 'grey';
   StockElement.created() : super.created();
 
+  @override
+  void enteredView() {
+    super.enteredView();
+    onMouseEnter.listen((_) => _changeLightness(0.8));
+    onMouseLeave.listen((_) => _changeLightness(0.5));
+    onClick.listen((_) => eventBus.fire(toggleGraphEvent, new ToggleGraph(symbol)));
+  }
+
+  void _changeLightness(double l) {
+    _color.setHsl(l: l);
+    bgColor = _color.toHex();
+  }
+
   void set price(double value) {
     priceFormatted = value.toStringAsFixed(3);
   }

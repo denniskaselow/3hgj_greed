@@ -9,8 +9,8 @@ import 'package:event_bus/event_bus.dart';
 
 part 'src/shared/business.dart';
 part 'src/shared/components.dart';
+part 'src/shared/event_payload.dart';
 
-//part 'src/shared/systems/name.dart';
 part 'src/shared/systems/logic.dart';
 
 Random random = new Random();
@@ -20,3 +20,4 @@ var maxPosRelativeChange = 0.0;
 var maxNegRelativeChange = 0.0;
 
 final EventType<OrderExecution> orderExecutionEvent = new EventType<OrderExecution>();
+final EventType<ToggleGraph> toggleGraphEvent = new EventType<ToggleGraph>();

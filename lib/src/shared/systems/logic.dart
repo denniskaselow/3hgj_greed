@@ -1,7 +1,16 @@
 part of shared;
 
 abstract class EntityPerTickProcessingSystem extends IntervalEntityProcessingSystem {
+  bool updateImmediately = false;
   EntityPerTickProcessingSystem(Aspect aspect) : super(1000, aspect);
+
+  @override
+  void end() {
+    updateImmediately = false;
+  }
+
+  @override
+  bool checkProcessing() => super.checkProcessing() || updateImmediately;
 }
 
 class TickerSystem extends EntityPerTickProcessingSystem {
@@ -29,7 +38,7 @@ class TickerSystem extends EntityPerTickProcessingSystem {
     } else if (ph.relativeChange > maxPosRelativeChange) {
       maxPosRelativeChange = ph.relativeChange;
     }
-    if (ph.prices.length > 60) {
+    if (ph.prices.length > 120) {
       ph.prices.removeFirst();
     }
     p.price = nextPrice;

@@ -2,10 +2,6 @@ body {
   text-align: center;
 }
 
-canvas {
-  display: none;
-}
-
 #stocks {
   width: 800px;
   margin: auto;

@@ -2,7 +2,8 @@ import 'package:3hgj_greed/client.dart';
 
 @MirrorsUsed(targets: const [InitializationSystem, StockElementUpdatingSystem,
                              TickerSystem, AccountRenderingSystem,
-                             OrderUpdateSystem, OrderExecutionSystem
+                             OrderUpdateSystem, OrderExecutionSystem,
+                             GraphRenderingSystem
                             ])
 import 'dart:mirrors';
 
@@ -41,7 +42,8 @@ class Game extends GameBase {
             new OrderUpdateSystem(),
             new OrderExecutionSystem(),
             new AccountRenderingSystem(),
-            new StockElementUpdatingSystem()
+            new StockElementUpdatingSystem(),
+            new GraphRenderingSystem(ctx)
     ];
   }
 }

@@ -1,12 +1,5 @@
 part of shared;
 
-
-class OrderExecution {
-  final Order order;
-  final double price;
-  OrderExecution(this.order, this.price);
-}
-
 class Order {
   final String symbol;
   final int _amount;
