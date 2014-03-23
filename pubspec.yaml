@@ -9,3 +9,9 @@ dependencies:
 #    path: ../gamedev_helpers
   hop: any
   event_bus: any
+  polymer: any
+  intl: any
+transformers: 
+- polymer:
+    entry_points:
+    - web/3hgj_greed.html

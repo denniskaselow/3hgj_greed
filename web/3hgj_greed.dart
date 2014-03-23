@@ -1,13 +1,15 @@
 import 'package:3hgj_greed/client.dart';
 
-@MirrorsUsed(targets: const [InitializationSystem, OverviewRenderingSystem,
+@MirrorsUsed(targets: const [InitializationSystem, StockElementUpdatingSystem,
                              TickerSystem, AccountRenderingSystem,
                              OrderUpdateSystem, OrderExecutionSystem
                             ])
 import 'dart:mirrors';
 
+import 'package:polymer/polymer.dart';
+
 void main() {
-  new Game().start();
+  initPolymer().run(() => new Game().start());
 }
 
 class Game extends GameBase {
@@ -39,7 +41,7 @@ class Game extends GameBase {
             new OrderUpdateSystem(),
             new OrderExecutionSystem(),
             new AccountRenderingSystem(),
-            new OverviewRenderingSystem()
+            new StockElementUpdatingSystem()
     ];
   }
 }

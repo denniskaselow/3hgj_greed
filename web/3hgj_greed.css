@@ -11,31 +11,6 @@ canvas {
   margin: auto;
 }
 
-.stock {
-  display: inline-block;
-  width: 150px;
-  height: 75px;
-  border: 1px solid black;
-  border-radius: 15px;
-  margin: 2px;
-}
-
-.stock > label {
-  display: block;
-  font-weight: bold;
-}
-
-.price {
-  display: inline-block;
-  width: 80px;
-}
-
-.change{
-  display: inline-block;
-  width: 70px;
-  text-align: right;
-}
-
 table {
   width: 300px;
   margin: auto;

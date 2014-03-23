@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <polymer-element name='stock-element'>
+      <template>
+        <style>
+          .stock {
+            display: inline-block;
+            width: 150px;
+            height: 75px;
+            border: 1px solid black;
+            border-radius: 15px;
+            margin: 2px;
+          }
+          .stock > label {
+            display: block;
+            font-weight: bold;
+          }
+          .name {
+            font-size: 0.60em;
+          }
+          .price {
+            font-size: 1.25em;
+          }
+          .change{
+            text-align: center;
+          }
+          .change > span {
+            display: inline-block;
+          }
+          .absolute {
+            width: 65px;
+          }
+          .relative {
+            width: 65px;
+          }
+        </style>
+        <div title='{{name}}' class='stock' id='{{symbol}}' style='background-color: {{bgColor}};'>
+          <label>{{symbol}}</label>
+          <div class='name'>{{name}}</div>
+          <div id='{{symbol}}_price' class='price'>{{priceFormatted}} G</div>
+          <div id='{{symbol}}_change' class='change'>
+            <span class='absolute'>{{absoluteChangeFormatted}} G</span>
+            <span class='relative'>{{relativeChangeFormatted}} %</span>
+          </div>
+        </div>
+      </template>
+      <script src='stock_element.dart' type='application/dart'></script>
+    </polymer-element>
+  </body>
+</html>
