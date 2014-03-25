@@ -45,28 +45,17 @@ class TickerSystem extends EntityPerTickProcessingSystem {
   }
 }
 
-class OrderExecutionSystem extends EntityProcessingSystem {
-  ComponentMapper<Account> am;
-  OrderExecution orderExecution;
-  OrderExecutionSystem() : super(Aspect.getAspectForAllOf([Account]));
+abstract class OnInvestmentActionSystem extends EntityProcessingSystem {
+  Queue<OrderExecution> orderExecution = new Queue<OrderExecution>();
+  OnInvestmentActionSystem(Aspect aspect) : super(aspect);
 
   @override
   void initialize() {
     eventBus.on(orderExecutionEvent).listen((event) {
-      orderExecution = event;
+      orderExecution.add(event);
     });
   }
 
   @override
-  void processEntity(Entity entity) {
-    var a = am.get(entity);
-    var investment = new Investment(orderExecution);
-    a.investments.add(investment);
-    a.cash -= investment.amount.abs() * investment.firstPrice;
-    orderExecution = null;
-  }
-
-  @override
-  bool checkProcessing() => orderExecution != null;
-
+  bool checkProcessing() => orderExecution.isNotEmpty;
 }

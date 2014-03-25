@@ -3,7 +3,8 @@ import 'package:3hgj_greed/client.dart';
 @MirrorsUsed(targets: const [InitializationSystem, StockElementUpdatingSystem,
                              TickerSystem, AccountRenderingSystem,
                              OrderUpdateSystem, OrderExecutionSystem,
-                             GraphRenderingSystem
+                             GraphRenderingSystem, StockManager, AccountManager,
+                             OpenPositionUpdatingSystem
                             ])
 import 'dart:mirrors';
 
@@ -19,20 +20,23 @@ class Game extends GameBase {
 
   @override
   Future onInit() {
-    world.addManager(new TagManager());
+    world.addManager(new StockManager());
+    world.addManager(new AccountManager());
   }
 
   void createEntities() {
-    TagManager tm = world.getManager(TagManager);
+    StockManager sm = world.getManager(StockManager);
+    AccountManager am = world.getManager(AccountManager);
     stocks.forEach((stock) {
       var firstPrice = 20 + random.nextDouble() * 150;
       var price = new Price(firstPrice);
       var e = addEntity([new StockId(stock[0], stock[1]),
                  price,
                  new PriceHistory(firstPrice)]);
-      tm.register(e, stock[0]);
+      sm.addStock(stock[0], e);
     });
-    addEntity([new Account(50000.0)]);
+    var e = addEntity([new Account(50000.0)]);
+    am.accountEntity = e;
   }
 
   List<EntitySystem> getSystems() {
@@ -43,6 +47,7 @@ class Game extends GameBase {
             new OrderExecutionSystem(),
             new AccountRenderingSystem(),
             new StockElementUpdatingSystem(),
+            new OpenPositionUpdatingSystem(),
             new GraphRenderingSystem(ctx)
     ];
   }

@@ -25,6 +25,20 @@ class StockIndex extends Component {}
 
 class Account extends Component {
   double cash;
-  List<Investment> investments = new List<Investment>();
+  double unrealizedProfitOrLoss = 0.0;
+  double boundMargin = 0.0;
   Account(this.cash);
+}
+
+class OpenPosition extends Component {
+  int amount;
+  int leverage;
+  double orderPrice;
+  double currentPrice;
+  OpenPosition(this.amount, this.leverage, this.orderPrice) {
+    currentPrice = orderPrice;
+  }
+
+  double get profitOrLoss => amount * (currentPrice - orderPrice);
+  double get margin => amount.abs() * orderPrice / leverage;
 }

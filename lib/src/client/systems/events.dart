@@ -1,8 +1,5 @@
 part of client;
 
-
-
-
 class OrderUpdateSystem extends EntityProcessingSystem {
   ComponentMapper<Account> am;
   ButtonElement executor;
@@ -16,7 +13,6 @@ class OrderUpdateSystem extends EntityProcessingSystem {
       execute = true;
     });
   }
-
 
   @override
   void processEntity(Entity entity) {
@@ -32,16 +28,16 @@ class OrderUpdateSystem extends EntityProcessingSystem {
         isValid = false;
       };
 
-      int leverage = 0;
+      int leverage = 1;
       try {
         leverage = int.parse((querySelector('#leverage') as InputElement).value);
       } catch (e) {
         isValid = false;
       };
       // quick and dirty
-      var priceWithUnit = querySelector('#${symbol}_price').innerHtml;
-      var price = double.parse(priceWithUnit.substring(0, priceWithUnit.length - 2));
-      var margin = price * amount;
+      var stockElement = querySelector('#${symbol}_container') as StockElement;
+      var price = double.parse(stockElement.priceFormatted);
+      var margin = price * amount / leverage;
       querySelector('#margin').setInnerHtml('${margin.toStringAsFixed(2)}');
       querySelector('#leveragedValue').setInnerHtml('${(margin * leverage).toStringAsFixed(2)}');
 
@@ -57,7 +53,8 @@ class OrderUpdateSystem extends EntityProcessingSystem {
 
       if (isValid && execute) {
         execute = false;
-        eventBus.fire(orderExecutionEvent, new OrderExecution(new Order(symbol, amount, isBuy ? 0 : 1, leverage), price));
+        var orderExecution = new OrderExecution(new Order(symbol, amount, isBuy ? 0 : 1, leverage), price, 10.0);
+        eventBus.fire(orderExecutionEvent, orderExecution);
       }
     }
     if (isValid) {
@@ -66,5 +63,25 @@ class OrderUpdateSystem extends EntityProcessingSystem {
       executor.disabled = true;
     }
   }
+}
 
+class OrderExecutionSystem extends OnInvestmentActionSystem {
+  OpenPositionsElement ope = querySelector('open-positions-element');
+  ComponentMapper<Account> am;
+  StockManager sm;
+  OrderExecutionSystem() : super(Aspect.getAspectForAllOf([Account]));
+
+  @override
+  void processEntity(Entity entity) {
+    var a = am.get(entity);
+    var execution = orderExecution.removeFirst();
+    var boundMargin = execution.order.amount.abs() * execution.price / execution.order.leverage;
+    a.cash -= boundMargin + execution.provision;
+    a.boundMargin += boundMargin;
+    var stockId = sm.createStockId(execution.order.symbol);
+    var openPosition = new OpenPosition(execution.order.amount, execution.order.leverage, execution.price);
+
+    var e = world.createAndAddEntity([stockId, openPosition]);
+    ope.createOpenPositionElement(e.uniqueId, stockId, openPosition);
+  }
 }

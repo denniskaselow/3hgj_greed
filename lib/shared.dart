@@ -10,6 +10,7 @@ import 'package:event_bus/event_bus.dart';
 part 'src/shared/business.dart';
 part 'src/shared/components.dart';
 part 'src/shared/event_payload.dart';
+part 'src/shared/manager.dart';
 
 part 'src/shared/systems/logic.dart';
 

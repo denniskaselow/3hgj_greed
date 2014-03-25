@@ -1,38 +1,5 @@
 part of client;
 
-
-class InitializationSystem extends EntityProcessingSystem {
-  ComponentMapper<StockId> sm;
-  ComponentMapper<Price> pm;
-  bool initialized = false;
-
-  InitializationSystem() : super(Aspect.getAspectForAllOf([StockId, Price]));
-
-  @override
-  void processEntity(Entity entity) {
-    var stockId = sm.get(entity);
-    var price = pm.get(entity);
-
-    DivElement div = querySelector('#stocks');
-    var stockElement = new Element.tag('stock-element') as StockElement;
-    stockElement.id = '${stockId.symbol}_container';
-    stockElement.symbol = stockId.symbol;
-    stockElement.name = stockId.name;
-    stockElement.price = price.price;
-    stockElement.initialPrice = price.price;
-    div.append(stockElement);
-
-    SelectElement stockSelection = querySelector('#stockSelection');
-    var option = new OptionElement(data: '${stockId.symbol} - ${stockId.name}', value: stockId.symbol);
-    stockSelection.append(option);
-
-    initialized = true;
-  }
-
-  bool checkProcessing() => !initialized;
-}
-
-
 class StockElementUpdatingSystem extends EntityPerTickProcessingSystem {
   ComponentMapper<StockId> sm;
   ComponentMapper<Price> pm;
@@ -53,10 +20,34 @@ class StockElementUpdatingSystem extends EntityPerTickProcessingSystem {
   }
 }
 
+class OpenPositionUpdatingSystem extends EntityPerTickProcessingSystem {
+  OpenPositionsElement ope = querySelector('open-positions-element');
+  ComponentMapper<StockId> sm;
+  ComponentMapper<OpenPosition> opm;
+  StockManager stockManager;
+  AccountManager am;
+  OpenPositionUpdatingSystem() : super(Aspect.getAspectForAllOf([StockId, OpenPosition]));
+
+  @override
+  void begin() {
+    am.account.unrealizedProfitOrLoss = 0.0;
+  }
+
+  @override
+  void processEntity(Entity entity) {
+    var op = opm.get(entity);
+    var s = sm.get(entity);
+
+    op.currentPrice = stockManager.getPrice(s.symbol);
+    ope.updateProfitLoss(entity.uniqueId, op.profitOrLoss);
+    am.account.unrealizedProfitOrLoss += op.profitOrLoss;
+  }
+}
+
 class AccountRenderingSystem extends EntityPerTickProcessingSystem {
   ComponentMapper<Account> am;
   ComponentMapper<Price> pm;
-  TagManager tm;
+  StockManager sm;
   AccountRenderingSystem() : super(Aspect.getAspectForAllOf([Account]));
 
   @override
@@ -68,18 +59,9 @@ class AccountRenderingSystem extends EntityPerTickProcessingSystem {
   void processEntity(Entity entity) {
     var a = am.get(entity);
 
-    double boundMargin = 0.0;
-    double change = 0.0;
-    a.investments.forEach((investment) {
-      Price price = pm.get(tm.getEntity(investment.symbol));
-      boundMargin += investment.amount.abs() * investment.firstPrice;
-      change += investment.amount * investment.leverage * (investment.firstPrice - price.price);
-    });
-    double unboundMargin = a.cash + change;
-
-    querySelector('#boundMargin').setInnerHtml('${boundMargin.toStringAsFixed(2)} G');
-    querySelector('#unboundMargin').setInnerHtml('${unboundMargin.toStringAsFixed(2)} G');
-    querySelector('#total').setInnerHtml('${(boundMargin + unboundMargin).toStringAsFixed(2)} G');
+    querySelector('#boundMargin').setInnerHtml('${a.boundMargin.toStringAsFixed(2)} G');
+    querySelector('#unboundMargin').setInnerHtml('${(a.cash + a.unrealizedProfitOrLoss).toStringAsFixed(2)} G');
+    querySelector('#total').setInnerHtml('${(a.cash + a.unrealizedProfitOrLoss + a.boundMargin).toStringAsFixed(2)} G');
   }
 }
 

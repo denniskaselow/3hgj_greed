@@ -1,7 +1,5 @@
 library stock_element;
 
-import 'dart:math';
-
 import 'package:canvas_query/color_tools.dart';
 import 'package:intl/intl.dart';
 import 'package:polymer/polymer.dart';
@@ -12,7 +10,7 @@ import 'package:3hgj_greed/shared.dart';
 class StockElement extends PolymerElement {
   final absoluteFormat = new NumberFormat('+0.000;-0.000');
   final relativeFormat = new NumberFormat('+0.00;-0.00');
-  final Color _color = new Color.fromHsl(0.0, 1.0, 0.5);
+  final Color _color = new Color.fromHsl(0.0, 0.0, 0.5);
   @observable String symbol;
   @observable String name;
   @observable String priceFormatted;
