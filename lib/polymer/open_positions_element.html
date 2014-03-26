@@ -5,11 +5,45 @@
     <polymer-element name='open-positions-element'>
       <template>
         <style>
+          #header {
+            width: 800px;
+            background-color: #717AFD;
+            color: #330000;
+            margin: auto;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          div > div {
+            display: inline-block;
+            text-align: center;
+          }
+          .symbol {
+            width: 200px;
+          }
+          .amount {
+            width: 100px;
+          }
+          .margin {
+            width: 150px;
+          }
+          .leverage {
+            width: 75px;
+          }
+          .profitOrLoss {
+            width: 250px;
+          }
         </style>
-        <div id='container'>
+          <div id='header'>
+            <div class='symbol'>Symbol - Name</div>
+            <div class='amount'>Amount</div>
+            <div class='margin'>Margin</div>
+            <div class='leverage'>Leverage</div>
+            <div class='profitOrLoss'>Profit/Loss</div>
+          </div>
+          <div id='container'>
 
-        </div>
-      </template>
+          </div>
+        </template>
       <script src='open_positions_element.dart' type='application/dart'></script>
     </polymer-element>
   </body>

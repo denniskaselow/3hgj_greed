@@ -1,10 +1,17 @@
 body {
   text-align: center;
+  background-color: #00247C;
+  color: #DA6710;
 }
 
 #stocks {
   width: 800px;
   margin: auto;
+  color: #000A3D;
+  background-color: #717AFD;
+  padding: 15px;
+  border-radius: 10px;
+  border: 5px solid #000A3D;
 }
 
 table {
@@ -31,4 +38,8 @@ td:first-of-type {
 
 #order label {
   display: block;
+}
+
+canvas {
+  background-color: #DFDBFF;
 }

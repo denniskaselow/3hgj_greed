@@ -2,7 +2,6 @@ library open_positions_element;
 
 import 'dart:html';
 
-import 'package:intl/intl.dart';
 import 'package:polymer/polymer.dart';
 
 import 'package:3hgj_greed/shared.dart';
