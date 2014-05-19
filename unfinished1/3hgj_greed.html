@@ -1,0 +1,204 @@
+<!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <meta charset="utf-8">
+    <title>CFD Tycoon</title>
+    <link type="text/css" rel="stylesheet" href="3hgj_greed.css">
+    
+    
+    
+  </head>
+  <body>
+    <polymer-element name="stock-element">
+      <template>
+        <style>
+          .stock {
+            display: inline-block;
+            width: 150px;
+            height: 75px;
+            border: 1px solid black;
+            border-radius: 15px;
+            margin: 2px;
+            cursor: pointer;
+          }
+          .stock > label {
+            display: block;
+            font-weight: bold;
+          }
+          .name {
+            font-size: 0.60em;
+          }
+          .price {
+            font-size: 1.25em;
+          }
+          .change{
+            text-align: center;
+          }
+          .change > span {
+            display: inline-block;
+          }
+          .absolute {
+            width: 65px;
+          }
+          .relative {
+            width: 65px;
+          }
+        </style>
+        <div title="{{name}}" class="stock" id="{{symbol}}" style="background-color: {{bgColor}};">
+          <label>{{symbol}}</label>
+          <div class="name">{{name}}</div>
+          <div id="{{symbol}}_price" class="price">{{priceFormatted}} G</div>
+          <div id="{{symbol}}_change" class="change">
+            <span class="absolute">{{absoluteChangeFormatted}} G</span>
+            <span class="relative">{{relativeChangeFormatted}} %</span>
+          </div>
+        </div>
+      </template>
+      
+    </polymer-element>
+  
+
+    <polymer-element name="open-positions-element">
+      <template>
+        <style>
+          #header {
+            width: 800px;
+            background-color: #717AFD;
+            color: #330000;
+            margin: auto;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          div > div {
+            display: inline-block;
+            text-align: center;
+          }
+          .symbol {
+            width: 200px;
+          }
+          .amount {
+            width: 100px;
+          }
+          .margin {
+            width: 150px;
+          }
+          .leverage {
+            width: 75px;
+          }
+          .profitOrLoss {
+            width: 250px;
+          }
+        </style>
+          <div id="header">
+            <div class="symbol">Symbol - Name</div>
+            <div class="amount">Amount</div>
+            <div class="margin">Margin</div>
+            <div class="leverage">Leverage</div>
+            <div class="profitOrLoss">Profit/Loss</div>
+          </div>
+          <div id="container">
+
+          </div>
+        </template>
+      
+    </polymer-element>
+  
+
+    <polymer-element name="open-position-element">
+      <template>
+        <style>
+          #row {
+            width: 800px;
+            margin: auto;
+            background-color: #DFDBFF;
+            color: #000A3D;
+            border-top: 1px solid #001A05;
+          }
+          div > div {
+            display: inline-block;
+          }
+          .number {
+            text-align: right;
+          }
+          .symbol {
+            text-align: left;
+            width: 200px;
+          }
+          .amount {
+            width: 100px;
+          }
+          .margin {
+            width: 150px;
+          }
+          .leverage {
+            width: 75px;
+          }
+          .profitOrLoss {
+            width: 250px;
+          }
+        </style>
+        <div id="row">
+          <div class="symbol">{{symbol}} - {{name}}</div>
+          <div class="amount number" style="color:{{amountColor}}">{{amount}}</div>
+          <div class="margin number">{{marginFormatted}} G</div>
+          <div class="leverage number">{{leverage}}</div>
+          <div class="profitOrLoss number" style="color:{{profitOrLossColor}}">{{profitOrLossFormatted}} G</div>
+        </div>
+      </template>
+      
+    </polymer-element>
+  
+
+    <h1>CFD Tycoon</h1>
+
+    <table id="account">
+      <tbody>
+        <tr>
+          <td>Unbound Margin</td>
+          <td id="unboundMargin" class="number"></td>
+        </tr>
+        <tr>
+          <td>Bound Margin</td>
+          <td id="boundMargin" class="number"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total Worth</th>
+          <th id="total" class="number"></th>
+        </tr>
+      </tfoot>
+    </table>
+    <open-positions-element></open-positions-element>
+    <fieldset id="order">
+      <legend>CFD Order</legend>
+      <div>Type
+      <label><input type="radio" name="type" value="buy" id="buy">Buy</label>
+      <label><input type="radio" name="type" value="sell" id="sell">Sell</label>
+      </div>
+      <label>Stock
+        <select id="stockSelection">
+          <option value="">--Please select a Stock--</option>
+        </select>
+      </label>
+      <label>Amount: <input type="text" id="amount" placeholder="Amount"></label>
+      <label>Leverage: <input type="text" id="leverage" placeholder="Set you Leverage (2-100)"></label>
+      <div>Margin: <span id="margin"></span></div>
+      <div>Leveraged Investment: <span id="leveragedValue"></span></div>
+      <button id="executeOrder">Execute Order</button>
+    </fieldset>
+    <div id="stocks">
+    </div>
+    <div>Created for the <a href="http://3hrgamejam.com/">#3hGJ</a>. This game is incomplete and uses wrong terms for most or all things. More features and correct terms will be added later.
+    <br>
+    If you want to know what's going on here, check out <a href="https://en.wikipedia.org/wiki/Contract_for_difference">CFD</a> or <a href="https://en.wikipedia.org/wiki/Margin_Call#Margin_call">Margin Call</a>.
+    </div>
+
+    <canvas></canvas>
+
+    <script src="3hgj_greed.html_bootstrap.dart.js"></script>
+    
+  
+
+</body></html>
